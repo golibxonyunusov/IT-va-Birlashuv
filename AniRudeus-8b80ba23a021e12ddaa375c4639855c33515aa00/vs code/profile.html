@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Profil — AniRudeus</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+    :root{--bg:#f7fbfd;--card:#ffffff;--accent:#1fa65a;--muted:#4b6b5b}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:#07221a}
+    .container{max-width:980px;margin:28px auto;padding:20px}
+    header{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
+    .brand{font-weight:700;color:var(--accent)}
+    nav a{color:var(--muted);text-decoration:none;margin-left:12px}
+
+    .hero{display:grid;grid-template-columns:220px 1fr;gap:22px;align-items:center;margin-top:20px}
+    .avatar{width:220px;height:220px;border-radius:12px;overflow:hidden;border:6px solid rgba(31,166,90,0.08)}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .profile h1{margin:0;font-size:28px}
+    .role{color:var(--muted);margin-top:6px}
+    .bio{margin-top:12px;line-height:1.6;color:#234b36}
+
+    .meta{display:flex;gap:12px;margin-top:14px}
+    .meta .pill{background:var(--card);padding:8px 12px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);color:var(--muted)}
+
+    .skills{margin-top:22px}
+    .skills ul{display:flex;gap:10px;flex-wrap:wrap;list-style:none;padding:0;margin:0}
+    .skills li{background:#eaf7ec;color:#0b2a23;padding:8px 12px;border-radius:999px;font-weight:600}
+
+    .contact{margin-top:22px;display:flex;gap:10px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;background:var(--accent);border:none;color:#012015;font-weight:700;text-decoration:none}
+    .btn.ghost{background:transparent;border:1px solid rgba(31,166,90,0.12);color:var(--accent)}
+
+    .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+    .card{background:var(--card);padding:14px;border-radius:10px;border:1px solid rgba(0,0,0,0.04)}
+
+    footer{margin-top:28px;text-align:center;color:var(--muted)}
+
+    @media(max-width:800px){.hero{grid-template-columns:1fr;}.avatar{width:160px;height:160px;margin:0 auto}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">AniRudeus</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="web.html">Web</a>
+        <a href="chat.html">Chat</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="avatar">
+        <img src="photo_2025-08-30_12-23-03.jpg" alt="Profile photo">
+      </div>
+      <div class="profile">
+        <h1 id="p_name">Rudeus Ani</h1>
+        <div id="p_role" class="role">Frontend developer · Teacher · Content creator</div>
+        <p id="p_bio" class="bio">Men web dasturchiman: chiroyli, tez va foydalanishga qulay interfeyslar yarataman. Kurslar, blog va loyihalarim orqali bilimlarimni bo'lishaman.</p>
+        <div class="meta">
+          <div class="pill" id="pillExp">Tajriba: 5 yil</div>
+          <div class="pill" id="pillLoc">Joylashuv: Tashkent</div>
+          <div class="pill" id="pillLang">Til: Uzbek, English</div>
+        </div>
+
+        <div class="contact">
+          <a id="contactMail" class="btn" href="mailto:example@example.com">Xabar yuborish</a>
+          <a id="contactDiscordBtn" class="btn ghost" href="https://discord.com/channels/1463407879112622195/1463407880173523020" target="_blank">Discord</a>
+        </div>
+        <div style="margin-top:12px">
+          <button id="editBtn" class="btn">Profilni tahrirlash</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Editable profile form (hidden by default) -->
+    <section id="editSection" style="display:none;margin-top:18px;background:#fff;padding:16px;border-radius:10px;border:1px solid rgba(0,0,0,0.04)">
+      <h3>Profilni tahrirlash</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+        <div>
+          <label>To'liq ism<br><input id="inputName" style="width:100%;padding:8px;margin-top:6px" type="text"></label>
+        </div>
+        <div>
+          <label>Rol / Lavozim<br><input id="inputRole" style="width:100%;padding:8px;margin-top:6px" type="text"></label>
+        </div>
+        <div style="grid-column:1/3">
+          <label>Bio<br><textarea id="inputBio" rows="3" style="width:100%;padding:8px;margin-top:6px"></textarea></label>
+        </div>
+        <div>
+          <label>Tajriba (yil)<br><input id="inputExp" style="width:100%;padding:8px;margin-top:6px" type="text"></label>
+        </div>
+        <div>
+          <label>Joylashuv<br><input id="inputLoc" style="width:100%;padding:8px;margin-top:6px" type="text"></label>
+        </div>
+        <div>
+          <label>Email<br><input id="inputEmail" style="width:100%;padding:8px;margin-top:6px" type="email"></label>
+        </div>
+        <div>
+          <label>Discord (ID yoki link)<br><input id="inputDiscord" style="width:100%;padding:8px;margin-top:6px" type="text"></label>
+        </div>
+        <div>
+          <label>Profil rasmi (URL yoki fayl)<br>
+            <input id="inputPhotoUrl" style="width:100%;padding:8px;margin-top:6px" type="text" placeholder="https://...">
+            <input id="inputPhotoFile" style="width:100%;margin-top:8px" type="file" accept="image/*">
+          </label>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="saveProfile" class="btn">Saqlash</button>
+        <button id="cancelEdit" class="btn ghost">Bekor qilish</button>
+      </div>
+    </section>
+
+    <section class="skills">
+      <h3>Ko'nikmalar</h3>
+      <ul>
+        <li>HTML & CSS</li>
+        <li>JavaScript</li>
+        <li>Responsive design</li>
+        <li>WebRTC & Jitsi</li>
+        <li>Firebase</li>
+      </ul>
+    </section>
+
+    <div class="cards">
+      <div class="card">
+        <h4>So'nggi loyihalar</h4>
+        <ul>
+          <li><a href="web/portfolio.html">Portfolio sayt</a></li>
+          <li><a href="web/shop.html">Shop demo</a></li>
+          <li><a href="videochat.html">Videochat</a></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Kontakt</h4>
+        <p class="meta" id="cardEmail">Email: example@example.com</p>
+        <p class="meta" id="cardTelegram">Telegram: @AniRudeus</p>
+        <p class="meta" id="cardDiscord">Discord: AniRudeus#1234</p>
+      </div>
+    </div>
+
+    <footer>&copy; 2026 AniRudeus</footer>
+  </div>
+  <script>
+    // Keys used: chat_fullname, chat_username, profile_photo, profile_role, profile_bio, profile_location, profile_experience, profile_email, profile_discord
+    // Support per-user profiles stored as JSON under key: profile_user_<username>
+    const currentUser = localStorage.getItem('chat_username') || localStorage.getItem('vs_username') || null;
+
+    function getQueryUser(){
+      try{ const p = new URLSearchParams(window.location.search); return p.get('user'); }catch(e){return null}
+    }
+
+    const queryUser = getQueryUser();
+
+    const defaults = {
+      name: localStorage.getItem('chat_fullname') || localStorage.getItem('vs_username') || 'Rudeus Ani',
+      role: localStorage.getItem('profile_role') || 'Frontend developer · Teacher · Content creator',
+      bio: localStorage.getItem('profile_bio') || "Men web dasturchiman: chiroyli, tez va foydalanishga qulay interfeyslar yarataman.",
+      photo: localStorage.getItem('profile_photo') || 'photo_2025-08-30_12-23-03.jpg',
+      exp: localStorage.getItem('profile_experience') || '5 yil',
+      loc: localStorage.getItem('profile_location') || 'Tashkent',
+      email: localStorage.getItem('profile_email') || 'example@example.com',
+      discord: localStorage.getItem('profile_discord') || 'AniRudeus#1234'
+    };
+
+  // Elements
+  const pName = document.getElementById('p_name');
+  const pRole = document.getElementById('p_role');
+  const pBio = document.getElementById('p_bio');
+  const avatarImg = document.querySelector('.avatar img');
+  const pillExp = document.getElementById('pillExp');
+  const pillLoc = document.getElementById('pillLoc');
+  const pillLang = document.getElementById('pillLang');
+  const cardEmail = document.getElementById('cardEmail');
+  const cardDiscord = document.getElementById('cardDiscord');
+  const contactMail = document.getElementById('contactMail');
+  const contactDiscordBtn = document.getElementById('contactDiscordBtn');
+
+  const editBtn = document.getElementById('editBtn');
+  const editSection = document.getElementById('editSection');
+  const saveBtn = document.getElementById('saveProfile');
+  const cancelBtn = document.getElementById('cancelEdit');
+
+  const inputName = document.getElementById('inputName');
+  const inputRole = document.getElementById('inputRole');
+  const inputBio = document.getElementById('inputBio');
+  const inputExp = document.getElementById('inputExp');
+  const inputLoc = document.getElementById('inputLoc');
+  const inputEmail = document.getElementById('inputEmail');
+  const inputDiscord = document.getElementById('inputDiscord');
+  const inputPhotoUrl = document.getElementById('inputPhotoUrl');
+  const inputPhotoFile = document.getElementById('inputPhotoFile');
+
+    function loadProfile(){
+      // If viewing another user, attempt to load per-user profile
+      if(queryUser && queryUser !== currentUser){
+        const raw = localStorage.getItem('profile_user_' + queryUser);
+        if(raw){
+          try{
+            const u = JSON.parse(raw);
+            pName.textContent = u.name || queryUser;
+            pRole.textContent = u.role || '';
+            pBio.textContent = u.bio || '';
+            avatarImg.src = u.photo || defaults.photo;
+            // hide edit controls for other users
+            editBtn.style.display = 'none';
+            editSection.style.display = 'none';
+            return;
+          }catch(e){ /* continue to defaults below */ }
+        }
+        // no stored profile for that user — show basic view
+        pName.textContent = queryUser;
+        pRole.textContent = '';
+        pBio.textContent = '';
+        avatarImg.src = defaults.photo;
+        editBtn.style.display = 'none';
+        editSection.style.display = 'none';
+        return;
+      }
+
+      // viewing own profile (or no query param) — populate editable fields from defaults and global keys
+      pName.textContent = defaults.name;
+      pRole.textContent = defaults.role;
+      pBio.textContent = defaults.bio;
+      avatarImg.src = defaults.photo;
+      // populate form
+      inputName.value = defaults.name;
+      inputRole.value = defaults.role;
+      inputBio.value = defaults.bio;
+      inputExp.value = localStorage.getItem('profile_experience') || '';
+      inputLoc.value = localStorage.getItem('profile_location') || '';
+      inputEmail.value = localStorage.getItem('profile_email') || '';
+      inputDiscord.value = localStorage.getItem('profile_discord') || '';
+      inputPhotoUrl.value = '';
+      inputPhotoFile.value = '';
+      editBtn.style.display = 'inline-block';
+    }
+
+    function openEdit(){ editSection.style.display='block'; editBtn.style.display='none'; window.scrollTo({top:editSection.offsetTop-20,behavior:'smooth'}); }
+    function closeEdit(){ editSection.style.display='none'; editBtn.style.display='inline-block'; }
+
+    editBtn.addEventListener('click', openEdit);
+    cancelBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeEdit(); loadProfile(); });
+
+    // handle photo file -> base64
+    inputPhotoFile.addEventListener('change', (e)=>{
+      const f = e.target.files && e.target.files[0];
+      if(!f) return;
+      const r = new FileReader();
+      r.onload = ()=>{ avatarImg.src = r.result; inputPhotoUrl.value = ''; }; r.readAsDataURL(f);
+    });
+
+    saveBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const name = inputName.value.trim() || defaults.name;
+      const role = inputRole.value.trim() || defaults.role;
+      const bio = inputBio.value.trim() || defaults.bio;
+      const exp = inputExp.value.trim();
+      const loc = inputLoc.value.trim();
+      const email = inputEmail.value.trim();
+      const discord = inputDiscord.value.trim();
+
+      // photo from URL if set
+      const photoUrl = inputPhotoUrl.value.trim();
+      if(photoUrl){ avatarImg.src = photoUrl; localStorage.setItem('profile_photo', photoUrl); }
+      else if(avatarImg.src && avatarImg.src.startsWith('data:')){ localStorage.setItem('profile_photo', avatarImg.src); }
+
+      // save fields
+      localStorage.setItem('chat_fullname', name);
+      localStorage.setItem('vs_username', name);
+      localStorage.setItem('profile_role', role);
+      localStorage.setItem('profile_bio', bio);
+      if(exp) localStorage.setItem('profile_experience', exp);
+      if(loc) localStorage.setItem('profile_location', loc);
+      if(email) localStorage.setItem('profile_email', email);
+      if(discord) localStorage.setItem('profile_discord', discord);
+
+      // also save a per-user profile object so others can view it when they open profile.html?user=NAME
+      const profileObj = { name, role, bio, photo: avatarImg.src, exp, loc, email, discord };
+      try{ localStorage.setItem('profile_user_' + name, JSON.stringify(profileObj)); }catch(e){ /* ignore storage errors */ }
+
+      // update defaults and UI
+      defaults.name = name; defaults.role = role; defaults.bio = bio;
+      pName.textContent = name; pRole.textContent = role; pBio.textContent = bio;
+
+      // update pills and contact card immediately
+      if(exp) pillExp.textContent = 'Tajriba: ' + exp + (exp.match(/\D/) ? '' : ' yil');
+      if(loc) pillLoc.textContent = 'Joylashuv: ' + loc;
+      if(email){ cardEmail.textContent = 'Email: ' + email; contactMail.href = 'mailto:' + email; }
+      if(discord){ cardDiscord.textContent = 'Discord: ' + discord; contactDiscordBtn.href = discord.startsWith('http') ? discord : ('https://discord.com/users/' + encodeURIComponent(discord)); }
+
+      closeEdit();
+      // transient saved banner
+      let b = document.getElementById('savedBanner');
+      if(!b){ b = document.createElement('div'); b.id = 'savedBanner'; b.style.position='fixed'; b.style.right='18px'; b.style.top='18px'; b.style.padding='10px 14px'; b.style.background='var(--accent)'; b.style.color='#012015'; b.style.borderRadius='8px'; b.style.boxShadow='0 6px 18px rgba(0,0,0,0.12)'; document.body.appendChild(b); }
+      b.textContent = 'Profil saqlandi.';
+      b.style.display = 'block';
+      setTimeout(()=>{ b.style.display='none'; },2000);
+    });
+
+    // initialize
+    loadProfile();
+  </script>
+</body>
+</html>

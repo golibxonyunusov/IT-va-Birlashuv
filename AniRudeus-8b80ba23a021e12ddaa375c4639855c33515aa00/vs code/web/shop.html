@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Shop — AniRudeusGaming</title>
+	<style>
+	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+	:root{--bg-1:#041324;--bg-2:#062033;--card:rgba(255,255,255,0.04);--accent:#ffd400;--muted:#9fb3c8}
+	*{box-sizing:border-box}
+	body{margin:0;font-family:'Poppins',system-ui,Arial,sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#fff}
+	.container{max-width:1100px;margin:0 auto;padding:28px}
+	header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+	.brand{color:var(--accent);font-weight:700;font-size:22px}
+	nav a{color:var(--muted);margin-left:14px;text-decoration:none}
+	.hero{padding:36px 0;display:flex;gap:24px;align-items:center}
+	.hero h1{margin:0;font-size:34px}
+	.lead{color:var(--muted)}
+	.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:20px}
+	.product{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));padding:14px;border-radius:10px;overflow:hidden}
+	.product img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+	.product h4{margin:10px 0 6px}
+	.meta{color:var(--muted);font-size:13px}
+	.price{font-weight:700;color:var(--accent);margin-top:8px}
+	.actions{margin-top:12px;display:flex;gap:8px}
+	.btn{padding:8px 12px;border-radius:8px;background:#fff;color:#061425;text-decoration:none;font-weight:700}
+	.btn.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)}
+	footer{margin-top:28px;color:var(--muted);text-align:center}
+	@media(max-width:740px){.hero{flex-direction:column}}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<div class="brand">AniRudeusGaming Shop</div>
+			<nav>
+				<a href="../web.html">Back to Web list</a>
+				<a href="portfolio.html">Portfolio</a>
+				<a href="onlinedars.html">Online Dars</a>
+				<a href="blog.html">Blog</a>
+			</nav>
+		</header>
+
+		<section class="hero">
+			<div>
+				<h1>Shop — mahsulotlar</h1>
+				<p class="lead">Bu bo'lim demo do'kon. Kerakli mahsulotlarni ko'ring va tez orada sotish tizimi qo'shiladi.</p>
+			</div>
+			<div style="margin-left:auto;color:var(--muted)">Mahsulotlar:  3</div>
+		</section>
+
+		<main>
+			<div class="grid">
+						<article class="product">
+							<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo3ryEZXlvpjK3yxJikRzGcKtz2kWcmswiGA&s" alt="Product">
+					<h4>Premium skin Pack</h4>
+					<div class="meta">Front-end templates va UI kit</div>
+					<div class="price">$9.99</div>
+					<div class="actions"><a class="btn" href="https://skinpacks.com/razer-premium-skinpack-for-windows-10/">View</a><a class="btn ghost" href="#">Buy</a></div>
+				</article>
+
+						<article class="product">
+							<img src="https://images.ctfassets.net/s5n2t79q9icq/7Hr97O2CnFWKItcar59hdo/c65b403f230d47ceadecf20b32d9a53c/nL8awROjgz_1600x1080.jpg?q=70&w=1920&fm=webp" alt="Product 2">
+					<h4>Avatar Bundle</h4>
+					<div class="meta">Gaming avatars to use in profile</div>
+					<div class="price">Free</div>
+					<div class="actions"><a class="btn" href="https://magic.wizards.com/en/products/avatar-the-last-airbender">View</a><a class="btn ghost" href="#">Get</a></div>
+				</article>
+
+						<article class="product">
+							<img src="https://img.itch.zone/aW1nLzIzMzE1ODI5LnBuZw==/315x250%23c/wNbDST.png" alt="Product 3">
+					<h4>Game Assets Pack</h4>
+					<div class="meta">Sprites, icons and sounds</div>
+					<div class="price">$4.99</div>
+					<div class="actions"><a class="btn" href="https://itch.io/game-assets">View</a><a class="btn ghost" href="#">Buy</a></div>
+				</article>
+			</div>
+		</main>
+
+		<footer>
+			&copy; 2026 AniRudeusGaming — Shop demo
+		</footer>
+	</div>
+</body>
+</html>

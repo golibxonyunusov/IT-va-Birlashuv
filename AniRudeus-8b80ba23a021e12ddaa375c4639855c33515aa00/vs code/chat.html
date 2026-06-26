@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Chat</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #05203b;
+      color: white;
+    }
+
+    /* NAVBAR styles (replaces .topbar) */
+    .navbar {
+      height: 60px;
+      background: #061425;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+    }
+    .nav-left .brand {
+      color: yellow;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 20px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(255,255,255,0.08);
+      color: yellow;
+    }
+    .nav-right button {
+      background: yellow;
+      color: #000;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .nav-right button.alt {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .sidebar {
+      width: 160px;
+      background: #0b1f36;
+      height: 100vh;
+      padding-top: 30px;
+      float: left;
+    }
+
+    .sidebar button, .sidebar .btn {
+      display: inline-block;
+      width: 130px;
+      margin: 10px;
+      padding: 10px;
+      background: #ffffff;
+      color: #062032;
+      border: none;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      cursor: pointer;
+    }
+
+    .sidebar .active {
+      background: yellow;
+      color: black;
+    }
+
+    /* Styled sidebar link button (for Videochat link) */
+    .sidebar .btn, .sidebar button {
+      display: inline-block;
+      width: 130px;
+      margin: 10px;
+      padding: 10px;
+      background: #ffffff;
+      color: #062032;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    }
+    .sidebar .btn:hover, .sidebar button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+      background: #ffd400;
+      color: #000;
+      cursor: pointer;
+    }
+    .sidebar .btn:active, .sidebar button:active { transform: translateY(0); }
+  /* active state for .btn to match the original .sidebar .active look */
+  .sidebar .btn.active, .sidebar button.active { background: yellow; color: black; }
+
+    .chat-container {
+      margin-left: 160px;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 60px);
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #e5e5e5;
+      color: #000;
+      border: 3px solid #0d2b4d;
+    }
+
+    .chatMessage {
+      background: #d6f4c7;
+      margin: 5px 0;
+      padding: 8px 32px 8px 8px;
+      border-radius: 5px;
+      position: relative;
+      word-wrap: break-word;
+    }
+
+    .chatMessage .meta {
+      font-size: 12px;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .chatMessage button {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      border: none;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      background: #061425;
+      padding: 10px;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 12px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+
+    .input-area button {
+      width: 130px;
+      background: yellow;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .group-title {
+      padding: 10px 15px;
+      background: #05203b;
+      color: yellow;
+      border-bottom: 1px solid #0d2b4d;
+    }
+  /* Video area styles */
+  #videoArea { display: none; padding: 12px; background: #07182a; }
+  #videoArea .videos { display: flex; gap: 12px; align-items: stretch; }
+  video { background: black; width: 100%; max-width: 640px; height: 360px; border: 2px solid #0d2b4d; }
+  .video-controls { margin-top: 8px; display:flex; gap:8px; flex-wrap:wrap; }
+  .sdp-area { margin-top:8px; display:flex; gap:8px; }
+  textarea.sdp { width:100%; height:120px; background:#fff; color:#000; padding:8px; border-radius:6px; }
+  /* Small corner AI widget styles */
+  .ai-modal {
+    display: none;
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    width: 520px;
+    height: 640px; /* taller by default so chat content is visible */
+    min-height: 240px;
+    max-height: 92vh;
+    background: #022031;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 9999;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.45);
+    resize: vertical; /* allow user to drag to make it taller */
+  }
+  .ai-modal .ai-header { display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:#012228;color:#ffd400;font-size:14px }
+  .ai-modal .ai-body { height: calc(100% - 84px); background:#061824; overflow:auto }
+  .ai-modal iframe { width:100%; height:100%; border:0; background: #fff }
+  .ai-modal .ai-footer { padding:6px 10px; display:flex;gap:8px;justify-content:flex-end;background:#01161a;font-size:12px }
+  .ai-modal .btn { padding:6px 10px; border-radius:6px; font-weight:700; cursor:pointer; font-size:13px }
+  .ai-modal .btn.ghost { background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.06) }
+  .ai-modal .btn.primary { background:#ffd400; color:#000 }
+
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="VS.html" class="brand">Browser</a>
+    </div>
+
+    <div class="nav-links">
+      <a href="index.html" id="link-home" class="active">Home</a>
+      <a href="web.html" id="link-web">Web</a>
+      <a href="Game.html" id="link-game">Game</a>
+      <a href="help.html" id="link-help">Help</a>
+    </div>
+
+    <div class="nav-right">
+  <button id="loginBtn" class="alt">Login</button>
+  <button id="logoutBtn" style="display:none">Logout</button>
+  <span id="displayName" title="Click to change" style="margin-left:8px; color:yellow; cursor:pointer; font-weight:600;"></span>
+    </div>
+  </nav>
+
+  <div class="sidebar">
+  <button id="btn-dasturchilar" class="btn" onclick="showGroup('dasturchilar')">Dasturchilar</button>
+  <button id="btn-ai" class="btn">AI</button>
+  <a id="btn-videochat" class="btn" href="https://discord.com/channels/1463407879112622195/1463407880173523020" target="_blank" rel="noopener noreferrer">Videochat</a>
+  </div>
+
+  <div class="chat-container">
+    <div class="group-title" id="groupTitle">Guruh: dasturchilar</div>
+    <div id="chat" class="chat-box"></div>
+
+    <!-- Video chat moved to a separate page: videochat.html -->
+    <div id="videoArea" style="display:none; padding:12px; background:#07182a;">
+      <p style="color:#ccc; padding:12px;">Video chat has been moved to <a href="videochat.html" style="color:yellow">videochat.html</a>. Click the sidebar Videochat button or the link to open it.</p>
+    </div>
+    <div class="input-area">
+      <input type="text" id="myInput" placeholder="So'z yozing" onkeydown="if(event.key==='Enter'){ sendMessage(); }">
+      <button onclick="sendMessage()">Yuborish</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs (replace with latest if needed) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
+  <script>
+    // Oddiy localStorage asosidagi chat — guruhlarga bo'lingan va xabarlarni saqlaydi.
+    let currentGroup = 'dasturchilar';
+    const chatEl = document.getElementById('chat');
+    const inputEl = document.getElementById('myInput');
+    const groupTitleEl = document.getElementById('groupTitle');
+
+    // Foydalanuvchi nomini saqlash yoki boshqa manbalardan olish (localStorage, sessionStorage, URL)
+    function resolveUsername(){
+      let name = localStorage.getItem('chat_username');
+      if(name) return name;
+      name = localStorage.getItem('vs_username') || sessionStorage.getItem('vs_username');
+      if(name){ localStorage.setItem('chat_username', name); return name; }
+      try{
+        const params = new URLSearchParams(window.location.search);
+        name = params.get('user') || params.get('username');
+        if(name){ localStorage.setItem('chat_username', name); return name; }
+      }catch(e){}
+      const el = document.querySelector('[data-visitor-name]') || document.getElementById('ism');
+      if(el && el.textContent.trim()){ name = el.textContent.trim(); localStorage.setItem('chat_username', name); return name; }
+      name = prompt('Ismingizni kiriting:');
+      if(name && name.trim()){ name = name.trim(); } else { name = 'Foydalanuvchi' + Math.floor(Math.random()*1000); }
+      localStorage.setItem('chat_username', name);
+      return name;
+    }
+
+    let username = resolveUsername();
+    document.getElementById('btn-dasturchilar').classList.add('active');
+
+    function getStorageKey(group) { return 'chat_' + group; }
+    function loadMessages(group) { const raw = localStorage.getItem(getStorageKey(group)); try { return raw ? JSON.parse(raw) : []; } catch { return []; } }
+    function saveMessages(group, messages) { localStorage.setItem(getStorageKey(group), JSON.stringify(messages)); }
+
+    function renderMessages() {
+      const messages = loadMessages(currentGroup);
+      chatEl.innerHTML = '';
+      if (messages.length === 0) { chatEl.innerHTML = '<p style="color:#444">Hech qanday xabar yo\'q. Xabar yozing.</p>'; return; }
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = 'chatMessage';
+        const meta = document.createElement('div'); meta.className = 'meta';
+        const authorLink = document.createElement('a'); authorLink.href = 'profile.html?user=' + encodeURIComponent(msg.sender); authorLink.textContent = msg.sender; authorLink.style.color = '#064'; authorLink.style.fontWeight = '700'; authorLink.style.marginRight = '8px';
+        const timeSpan = document.createElement('span'); timeSpan.textContent = ' · ' + new Date(msg.time).toLocaleString(); meta.appendChild(authorLink); meta.appendChild(timeSpan);
+        const text = document.createElement('div'); text.textContent = msg.text; text.style.cursor = 'pointer'; text.addEventListener('click', ()=>{ window.location.href = 'profile.html?user=' + encodeURIComponent(msg.sender); });
+        const del = document.createElement('button'); del.textContent = 'x'; del.title = 'O\'chirish'; del.onclick = () => deleteMessage(msg.id);
+        div.appendChild(meta); div.appendChild(text); div.appendChild(del); chatEl.appendChild(div);
+      });
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    function sendMessage() { const text = inputEl.value.trim(); if(!text) return; const messages = loadMessages(currentGroup); const message = { id: Date.now() + '_' + Math.random().toString(36).slice(2,7), sender: username, text, time: Date.now() }; messages.push(message); saveMessages(currentGroup, messages); inputEl.value = ''; renderMessages(); }
+    function deleteMessage(id) { let messages = loadMessages(currentGroup); messages = messages.filter(m => m.id !== id); saveMessages(currentGroup, messages); renderMessages(); }
+    function showGroup(group) { currentGroup = group; groupTitleEl.textContent = 'Guruh: ' + group; document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active')); const btn = document.getElementById('btn-' + group); if (btn) btn.classList.add('active'); renderMessages(); }
+
+    (function(){
+      const loginBtn = document.getElementById('loginBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const loginAnchor = document.getElementById('link-login');
+      function updateAuthButtons(){ const u = localStorage.getItem('chat_username'); if(u){ if(loginBtn) loginBtn.style.display = 'none'; if(logoutBtn) logoutBtn.style.display = 'inline-block'; if(loginAnchor) loginAnchor.textContent = u + ' (Profil)'; const dn = document.getElementById('displayName'); if(dn) { dn.textContent = u; dn.style.cursor = 'pointer'; dn.title = 'Profilni ko\u02b7rish'; } } else { if(loginBtn) loginBtn.style.display = 'inline-block'; if(logoutBtn) logoutBtn.style.display = 'none'; if(loginAnchor) loginAnchor.textContent = 'Roʻyxat / Kirish'; const dn = document.getElementById('displayName'); if(dn) { dn.textContent = ''; dn.style.cursor = 'default'; dn.title = ''; } } }
+      if(loginBtn){ loginBtn.addEventListener('click', () => { const name = prompt('Ismingizni kiriting:') || ''; if(name) { localStorage.setItem('chat_username', name); username = name; renderMessages(); } updateAuthButtons(); }); }
+      if(logoutBtn){ logoutBtn.addEventListener('click', () => { localStorage.removeItem('chat_username'); username = null; updateAuthButtons(); window.location.href = 'VS.html'; }); }
+      const displayNameEl = document.getElementById('displayName'); if(displayNameEl){ displayNameEl.addEventListener('click', ()=>{ const u = localStorage.getItem('chat_username') || localStorage.getItem('chat_fullname'); if(u) window.location.href = 'profile.html?user=' + encodeURIComponent(u); }); }
+      updateAuthButtons();
+    })();
+
+    // Initial render
+    renderMessages();
+  </script>
+
+  <!-- AI modal (loads external page in iframe; use "Open in new tab" if embedding blocked) -->
+  <div id="aiModal" class="ai-modal" role="dialog" aria-hidden="true">
+    <div class="ai-header">
+      <strong>AI</strong>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="aiOpenNew" class="btn primary">Open in new tab</button>
+        <button id="aiClose" class="btn ghost">✕</button>
+      </div>
+    </div>
+    <div class="ai-body">
+      <iframe id="aiFrame" src="about:blank" title="AI content"></iframe>
+    </div>
+    <div class="ai-footer">
+      <small style="color:#9fd">If the site refuses to embed, click "Open in new tab".</small>
+    </div>
+  </div>
+
+  <script>
+    // AI button -> open modal with iframe pointing to requested URL
+    (function(){
+      const AI_URL = 'https://chatgpt.com/';
+      const btn = document.getElementById('btn-ai');
+      const modal = document.getElementById('aiModal');
+      const closeBtn = document.getElementById('aiClose');
+      const openNew = document.getElementById('aiOpenNew');
+      const frame = document.getElementById('aiFrame');
+
+      function showModal(){
+        // set iframe src (add timestamp to avoid caching)
+        frame.src = AI_URL + '?_=' + Date.now();
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden','false');
+      }
+      function hideModal(){
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden','true');
+        // clear src to stop loading
+        frame.src = 'about:blank';
+      }
+
+      btn && btn.addEventListener('click', (e)=>{ e.preventDefault(); showModal(); });
+      closeBtn && closeBtn.addEventListener('click', hideModal);
+      openNew && openNew.addEventListener('click', ()=>{ window.open(AI_URL, '_blank', 'noopener'); });
+
+      // optional: if embedding is blocked, iframe may stay empty; keep "Open in new tab" available.
+      // close modal on ESC
+      document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') hideModal(); });
+    })();
+  </script>
+
+</body>
+</html>

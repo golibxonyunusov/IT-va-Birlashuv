@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Page</title>
+    <style>
+        body {
+            background-color: #0a1a2a;
+            color: yellow;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .help-container {
+            background-color: black;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .help-container h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .help-container input, .help-container textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .help-container button {
+            background-color: yellow;
+            color: black;
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .help-container button:hover {
+            background-color: #e5e500;
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <div class="help-container">
+        <h1>Biror narsaga tushunmayapsizmi???</h1>
+        <p>Muammoni yozing va telefoningizni kiriting, biz siz bilan bog'lamiz 😊</p>
+
+        <!-- Formspree orqali emailga yuborish -->
+        <form action="https://formspree.io/f/myzbqakl" method="POST">
+            <textarea name="message" placeholder="Muammo yoki savolingizni yozing..." required></textarea>
+            <input type="tel" name="phone" placeholder="Telefon raqamingiz" required>
+            <button type="submit">Jo'natish</button>
+        </form>
+    </div>
+
+
+
+    
+</body>
+</html>

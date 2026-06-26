@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Music — AniRudeus</title>
+	<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+	:root{--bg:#0b1620;--card:#07121a;--accent:#1fa65a;--muted:#9fb3c8}
+	*{box-sizing:border-box}
+	body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:linear-gradient(180deg,#031018,var(--bg));color:#fff}
+	.container{max-width:980px;margin:0 auto;padding:22px}
+	header{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+	.brand{color:var(--accent);font-weight:700}
+	nav a{color:var(--muted);margin-left:12px;text-decoration:none}
+	.hero{padding:18px 0}
+	.playlist{margin-top:18px}
+	.track{background:var(--card);padding:12px;border-radius:10px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+	.track .meta{flex:1}
+	.btn{padding:8px 12px;border-radius:8px;background:var(--accent);color:#000;text-decoration:none;font-weight:700}
+	footer{margin-top:20px;color:var(--muted);text-align:center}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<div class="brand">Music Player</div>
+			<nav>
+				<a href="../web.html">Back</a>
+				<a href="portfolio.html">Portfolio</a>
+			</nav>
+		</header>
+
+		<section class="hero">
+			<h1>Listen to tracks</h1>
+			<p class="meta">Small demo player for sample audio. Replace sources with your files.</p>
+		</section>
+
+		<main class="playlist">
+			<div class="track">
+				<div class="meta">
+					<strong>Track 1</strong>
+					<div class="meta">Artist — 3:12</div>
+				</div>
+				<audio controls preload="none" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+			</div>
+
+			<div class="track">
+				<div class="meta">
+					<strong>Track 2</strong>
+					<div class="meta">Artist — 2:48</div>
+				</div>
+				<audio controls preload="none" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
+			</div>
+
+			<div class="track">
+				<div class="meta">
+					<strong>Ambient Mix</strong>
+					<div class="meta">Various — 4:05</div>
+				</div>
+				<audio controls preload="none" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"></audio>
+			</div>
+		</main>
+
+		<footer>&copy; 2026 AniRudeus — Music demo</footer>
+	</div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="VS.css" />
+  <title>Browser</title>
+</head>
+<body>
+  
+  <nav class="nav">
+    <div class="innav">
+      <a href="index.html" style="color: yellow;"><p>Home</p></a> 
+      <a href="web.html" style="color: yellow;"><p>Web</p></a> 
+      <a href="Game.html" style="color: yellow;"><p>Game</p></a> 
+      <a href="help.html" style="color: yellow;"><p>Help</p></a>
+      <a href="#login"><button class="navB">Log in</button></a>
+    </div>
+  </nav>
+
+  <div>
+    <div class="logo">
+      <img src="AniRudeus.jpg" alt="">
+      <h1>
+        <div>AniRudeusGaming</div> Yaqinda ochilgan YouTube kanalim va guruhim.
+        Guruhga odam qidiryapman — istagan odam men bilan bog'lansin.
+      </h1>
+    </div>
+
+    <div class="logo2">
+      <h1>
+        Bizga dasturchilar, dizaynerlar, Telegram bot yaratuvchilar, logotipchilar va gamerlar kerak! 
+        Agar hohlovchi bo‘lsa — bizga yozing, guruhimizga taklif qilamiz.
+      </h1>
+      <img src="logo.jpg" alt="">
+    </div>
+  </div>
+
+  <div id="login" class="logout">
+    <img src="gaming.png" alt=""><br><br><br>
+    <div class="input">
+      <input type="text" id="ism" class="login" placeholder="Ismingiz"><br><br>
+      <input type="text" id="familiya" class="login" placeholder="Familiyangiz"><br><br>
+      <input type="text" id="otasini" class="login" placeholder="Otasining ismi"><br><br>
+      <input type="date" id="tugilgan" class="login"><br><br>
+      <input type="email" id="gmail" class="login" placeholder="Gmail"><br><br>
+      <input type="password" id="parol" class="login" placeholder="Parol"><br><br>
+    </div>
+
+    <button onclick="royxatdanOtish()" class="Royhat">Ro'yxatdan o'tish</button>
+    <button onclick="kirish()" class="Royhat2">Kirish</button>
+    <p id="xabar" class="error"></p>
+  </div>
+    
+  <footer>
+    <div class="footer-container">
+      <h2>AniRudeusGaming</h2>
+      <p>&copy; 2025 AniRudeusGaming. Barcha huquqlar himoyalangan. 👍</p>
+      <div class="footer-links">
+        <a href="#">Biz haqimizda</a>
+        <a href="help.html">Aloqa</a>
+        <a href="#">Maxfiylik siyosati</a>
+      </div>
+    </div>
+  </footer>
+
+<script>
+    document.querySelector("a[href='#login']").addEventListener("click", function(e) {
+      e.preventDefault();
+      document.querySelector("#login").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // 🔹 Ro'yxatdan o'tish
+    function royxatdanOtish() {
+      let ism = document.getElementById("ism").value.trim();
+      let familiya = document.getElementById("familiya").value.trim();
+      let otasini = document.getElementById("otasini").value.trim();
+      let tugilgan = document.getElementById("tugilgan").value.trim();
+      let gmail = document.getElementById("gmail").value.trim();
+      let parol = document.getElementById("parol").value.trim();
+      let xabar = document.getElementById("xabar");
+
+      if (ism && familiya && otasini && tugilgan && gmail && parol) {
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let exist = users.find(user => user.gmail === gmail);
+        if (exist) {
+          xabar.style.color = "red";
+          xabar.textContent = "❌ Bu email allaqachon ro‘yxatdan o‘tgan!";
+          return;
+        }
+        let newUser = { ism, familiya, otasini, tugilgan, gmail, parol };
+        users.push(newUser);
+        localStorage.setItem("users", JSON.stringify(users));
+        xabar.style.color = "green";
+        xabar.textContent = "✅ Ro‘yxatdan muvaffaqiyatli o‘tdingiz! Endi kirish tugmasini bosing.";
+        // Inputlarni tozalash
+        document.getElementById("ism").value = "";
+        document.getElementById("familiya").value = "";
+        document.getElementById("otasini").value = "";
+        document.getElementById("tugilgan").value = "";
+        document.getElementById("gmail").value = "";
+        document.getElementById("parol").value = "";
+      } else {
+        xabar.style.color = "red";
+        xabar.textContent = "❌ Iltimos, barcha maydonlarni to‘ldiring!";
+      }
+    }
+
+    // 🔹 Kirish
+    function kirish() {
+      let ism = document.getElementById("ism").value.trim();
+      let familiya = document.getElementById("familiya").value.trim();
+      let otasini = document.getElementById("otasini").value.trim();
+      let tugilgan = document.getElementById("tugilgan").value.trim();
+      let gmail = document.getElementById("gmail").value.trim();
+      let parol = document.getElementById("parol").value.trim();
+      let xabar = document.getElementById("xabar");
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      let user = users.find(u =>
+        u.ism === ism &&
+        u.familiya === familiya &&
+        u.otasini === otasini &&
+        u.tugilgan === tugilgan &&
+        u.gmail === gmail &&
+        u.parol === parol
+      );
+
+      if (user) {
+        xabar.style.color = "green";
+        xabar.textContent = "✅ Tizimga muvaffaqiyatli kirdingiz!";
+        // store the name so index.html chat uses this username immediately
+        try{
+          const fullname = (user.ism + (user.familiya ? (' ' + user.familiya) : '')).trim();
+          localStorage.setItem('chat_username', user.ism);
+          localStorage.setItem('vs_username', user.ism);
+          localStorage.setItem('chat_fullname', fullname);
+        }catch(e){/* ignore if storage not available */}
+        window.location.href = "chat.html"; 
+      } else {
+        xabar.style.color = "red";
+        xabar.textContent = "❌ Ma’lumotlar noto‘g‘ri yoki foydalanuvchi mavjud emas!";
+      }
+    }
+      
+    
+  </script>
+
+
+
+</body>
+</html>

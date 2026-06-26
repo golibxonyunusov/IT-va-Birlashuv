@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Blog — Your Site</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+  :root{--bg:#f7fbfd;--card:#ffffff;--accent:#1fa65a;--muted:#6b8f72;--soft:#edf7ee}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:#0b2a23;-webkit-font-smoothing:antialiased}
+  .container{max-width:980px;margin:0 auto;padding:22px}
+  header{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.04)}
+  .brand{color:var(--accent);font-weight:700;font-size:20px}
+  nav a{color:var(--muted);text-decoration:none;margin-left:12px;font-weight:600}
+  nav a:hover{color:#0b2a23}
+
+  .posts{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
+  .post{background:var(--card);border-radius:12px;padding:18px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 6px 18px rgba(4,20,14,0.04)}
+  .post h3{margin:0 0 8px;font-size:20px}
+  .meta{color:var(--muted);font-size:13px;margin-bottom:10px}
+  .excerpt{color:#234b36;line-height:1.6}
+  .read{display:inline-block;margin-top:12px;padding:8px 12px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700}
+  .read.secondary{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .sidebar{margin-top:18px}
+
+  /* Modal reader */
+  .modal{position:fixed;inset:0;background:rgba(6,10,8,0.6);display:flex;align-items:center;justify-content:center;padding:20px;z-index:120;display:none}
+  .modal.open{display:flex}
+  .modal .dialog{width:100%;max-width:900px;background:var(--card);border-radius:12px;padding:20px;overflow:auto;max-height:90vh;border:1px solid rgba(0,0,0,0.06)}
+  .modal .close{float:right;background:transparent;border:none;font-size:18px;color:var(--muted);cursor:pointer}
+  .post-content h1{margin-top:0}
+
+  @media(min-width:900px){.layout{display:grid;grid-template-columns:2fr 1fr;gap:22px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">Your Blog</div>
+      <nav>
+        <a href="portfolio.html">Portfolio</a> | <a href="onlinedars.html">Online Dars</a> | <a href="../help.html">Help</a>
+      </nav>
+    </header>
+
+    <div class="layout">
+      <main>
+        <h2>So'nggi maqolalar</h2>
+        <div class="posts" id="posts"></div>
+      </main>
+
+      <aside class="sidebar">
+        <div class="post card">
+          <h4>About</h4>
+          <p class="meta">Muallif haqida qisqacha</p>
+          <p style="color:#234b36">Developer, teacher, and lifelong learner. I write about web dev and teamwork.</p>
+        </div>
+        <div style="margin-top:12px">
+          <h4>Categories</h4>
+          <ul style="padding-left:18px;color:var(--muted)">
+            <li>HTML/CSS</li>
+            <li>JavaScript</li>
+            <li>Tools & Tips</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <footer style="margin-top:24px;color:var(--muted)">&copy; 2026 Your Blog</footer>
+  </div>
+  <!-- Modal for in-page reading -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true">
+      <button class="close" id="modalClose">✕</button>
+      <div id="modalContent" class="post-content"></div>
+    </div>
+  </div>
+
+  <script>
+    // sample posts data, you can add or fetch from external JSON
+    const posts = [
+      {id:1,title:'Web dizayn asoslari',date:'2026-01-21',excerpt:'Qanday qilib chiroyli va foydalanuvchi uchun qulay interfeys yaratish haqida qisqacha...',
+        content:`<h1>Web dizayn asoslari</h1>
+        <p>Web dizayn — foydalanuvchi tajribasini markazga qo'yuvchi jarayon. Dizaynning asosiy tamoyillari: kontrast, joylashuv, tipografiya, ranglar va moslashuvchanlik.</p>
+        <h3>1. Kontrast</h3>
+        <p>Matn va fon orasidagi kontrast yetarli bo'lishi kerak, shunda o'qish qulay bo'ladi.</p>
+        <h3>2. Tipografiya</h3>
+        <p>Shriftlar o'qilishi kerak va bosh sarlavhalar aniq ko'rinishi zarur.</p>
+        <h3>3. Responsiv dizayn</h3>
+        <p>Sahifa mobil va katta ekranlarda ham yaxshi ko'rinishi kerak — media query va elastik layoutlardan foydalaning.</p>
+        <p>...</p>`
+      },
+      {id:2,title:'JavaScriptda funksiyalar',date:'2026-01-20',excerpt:"Funksiyalarni qanday yozish va ular bilan kodni modular qilish haqida misollar.",content:'<h1>JavaScriptda funksiyalar</h1><p>Funksiyalar ...</p>'}
+    ];
+
+    const container = document.getElementById('posts');
+    posts.forEach(p=>{
+      const el = document.createElement('article');
+      el.className = 'post';
+      el.innerHTML = `<h3>${p.title}</h3><div class='meta'>${p.date}</div><p class='excerpt'>${p.excerpt}</p><a class='read' href='#' data-id='${p.id}'>Read</a>`;
+      container.appendChild(el);
+    });
+
+    // modal behavior
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalContent');
+    const modalClose = document.getElementById('modalClose');
+    function openModal(html){ modalContent.innerHTML = html; modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); }
+    function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); modalContent.innerHTML = ''; }
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+
+    document.addEventListener('click', (e)=>{
+      const a = e.target.closest && e.target.closest('a.read');
+      if(!a) return;
+      e.preventDefault();
+      const id = Number(a.dataset.id);
+      const p = posts.find(x=>x.id===id);
+      if(p) openModal(p.content);
+    });
+  </script>
+</body>
+</html>
